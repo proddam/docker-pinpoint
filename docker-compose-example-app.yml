@@ -12,11 +12,11 @@ services:
       JAVA_OPTS: "-javaagent:/assets/pinpoint-agent/pinpoint-bootstrap-1.8.0.jar -Dpinpoint.agentId=app-in-docker -Dpinpoint.applicationName=app"
 
   pinpoint-agent:
-    image: dawidmalina/pinpoint-agent:1.8.0
+    image: proddam/pinpoint-agent:1.8.0
     network_mode: "none"
     restart: unless-stopped
     environment:
-      COLLECTOR_IP: 192.168.15.102
+      COLLECTOR_IP: localhost
       COLLECTOR_TCP_PORT: 9994
       COLLECTOR_UDP_STAT_LISTEN_PORT: 9995
       COLLECTOR_UDP_SPAN_LISTEN_PORT: 9996
