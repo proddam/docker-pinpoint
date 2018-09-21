@@ -1,0 +1,29 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pinpoint-hbase
+  name: pinpoint-hbase
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: pinpoint-hbase
+    spec:
+      containers:
+      - image: proddam/pinpoint-hbase:1.8.0
+        name: pinpoint-hbase
+        ports:
+        - containerPort: 2181
+        - containerPort: 16010
+        resources: {}
+      hostname: pinpoint-hbase
+      restartPolicy: Always
+status: {}

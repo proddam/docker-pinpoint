@@ -1,4 +1,4 @@
-version: '2.1'
+version: '2'
 services:
 
   pinpoint-hbase:
@@ -84,7 +84,6 @@ services:
       - pinpoint-collector
     image: proddam/pinpoint-agent:1.8.0
     network_mode: "none"
-    restart: unless-stopped
     environment:
       COLLECTOR_IP: pinpoint-collector
       COLLECTOR_TCP_PORT: 9994

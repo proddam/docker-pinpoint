@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pinpoint-collector
+  name: pinpoint-collector
+spec:
+  ports:
+  - name: "9994"
+    port: 9994
+    targetPort: 9994
+  - name: "9995"
+    port: 9995
+    targetPort: 9995
+  - name: "9996"
+    port: 9996
+    targetPort: 9996
+  - name: 9995-udp
+    port: 9995
+    protocol: UDP
+    targetPort: 9995
+  - name: 9996-udp
+    port: 9996
+    protocol: UDP
+    targetPort: 9996
+  selector:
+    io.kompose.service: pinpoint-collector
+status:
+  loadBalancer: {}

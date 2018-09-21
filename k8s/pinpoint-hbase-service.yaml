@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pinpoint-hbase
+  name: pinpoint-hbase
+spec:
+  ports:
+  - name: "2181"
+    port: 2181
+    targetPort: 2181
+  - name: "16010"
+    port: 16010
+    targetPort: 16010
+  selector:
+    io.kompose.service: pinpoint-hbase
+status:
+  loadBalancer: {}

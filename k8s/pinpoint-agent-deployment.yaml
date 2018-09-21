@@ -1,0 +1,38 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pinpoint-agent
+  name: pinpoint-agent
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: pinpoint-agent
+    spec:
+      containers:
+      - env:
+        - name: COLLECTOR_IP
+          value: pinpoint-collector
+        - name: COLLECTOR_TCP_PORT
+          value: "9994"
+        - name: COLLECTOR_UDP_SPAN_LISTEN_PORT
+          value: "9996"
+        - name: COLLECTOR_UDP_STAT_LISTEN_PORT
+          value: "9995"
+        - name: DISABLE_DEBUG
+          value: "true"
+        - name: PROFILER_SAMPLING_RATE
+          value: "1"
+        image: proddam/pinpoint-agent:1.8.0
+        name: pinpoint-agent
+        resources: {}
+      restartPolicy: Always
+status: {}

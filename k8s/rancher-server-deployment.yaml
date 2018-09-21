@@ -1,0 +1,64 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rancher-server
+  name: rancher-server
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: rancher-server
+    spec:
+      initContainers:
+      - name: check-hbase
+        image: busybox
+        command: ['sh', '-c', 'until nslookup pinpoint-hbase; do echo wating for hbase; sleep 2; done;']
+      - name: check-collector
+        image: busybox
+        command: ['sh', '-c', 'until nslookup pinpoint-collector; do echo wating for collector; sleep 2; done;']
+      - name: pinpoint-agent
+        env:
+        - name: COLLECTOR_IP
+          value: pinpoint-collector
+        - name: COLLECTOR_TCP_PORT
+          value: "9994"
+        - name: COLLECTOR_UDP_SPAN_LISTEN_PORT
+          value: "9996"
+        - name: COLLECTOR_UDP_STAT_LISTEN_PORT
+          value: "9995"
+        - name: DISABLE_DEBUG
+          value: "true"
+        - name: PROFILER_SAMPLING_RATE
+          value: "1"
+        image: proddam/pinpoint-agent:1.8.0
+        command: ['/usr/local/bin/configure-agent.sh', 'sh', '-c', 'cp -R /assets/pinpoint-agent/* /pinpoint-agent-share/']
+        imagePullPolicy: Always
+        resources: {}
+        volumeMounts:
+        - mountPath: /pinpoint-agent-share
+          name: data-volume
+      containers:
+      - name: rancher-server
+        env:
+        - name: JAVA_OPTS
+          value: "-javaagent:/assets/pinpoint-agent/pinpoint-bootstrap-1.8.0.jar -Dpinpoint.agentId=app-in-docker -Dpinpoint.applicationName=app"
+        image: rancher/server:v1.3.0
+        ports:
+        - containerPort: 8080
+        resources: {}
+        volumeMounts:
+        - mountPath: /assets/pinpoint-agent
+          name: data-volume
+      restartPolicy: Always
+      volumes:
+      - name: data-volume
+        emptyDir: {}
+status: {}

@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: rancher-server
+  name: rancher-server
+spec:
+  type: NodePort
+  ports:
+  - name: "18080"
+    port: 18080
+    targetPort: 8080
+    nodePort: 30084
+  selector:
+    io.kompose.service: rancher-server
+status:
+  loadBalancer: {}

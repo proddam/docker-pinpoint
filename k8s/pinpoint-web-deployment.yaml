@@ -1,0 +1,48 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.15.0 (e3cd4d4)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: pinpoint-web
+  name: pinpoint-web
+spec:
+  replicas: 1
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: pinpoint-web
+    spec:
+      containers:
+      - env:
+        - name: ADMIN_PASSWORD
+          value: admin123
+        - name: CLUSTER_ENABLE
+          value: "true"
+        - name: CLUSTER_WEB_TCP_PORT
+          value: "9997"
+        - name: CLUSTER_ZOOKEEPER_ADDRESS
+          value: pinpoint-hbase
+        - name: DISABLE_ANALYTICS
+          value: "true"
+        - name: DISABLE_DEBUG
+          value: "true"
+        - name: ENABLE_APPLICATION_INSPECTOR
+          value: "true"
+        - name: HBASE_HOST
+          value: pinpoint-hbase
+        - name: HBASE_PORT
+          value: "2181"
+        image: proddam/pinpoint-web:1.8.0
+        name: pinpoint-web
+        ports:
+        - containerPort: 9997
+        - containerPort: 8080
+        resources: {}
+      hostname: web
+      restartPolicy: Always
+status: {}
