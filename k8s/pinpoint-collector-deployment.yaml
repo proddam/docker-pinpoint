@@ -40,6 +40,7 @@ spec:
         - name: HBASE_PORT
           value: "2181"
         image: proddam/pinpoint-collector:1.8.0
+        imagePullPolicy: Always
         name: pinpoint-collector
         ports:
         - containerPort: 9994

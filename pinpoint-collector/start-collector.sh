@@ -30,6 +30,9 @@ sed -i "s/collector.tcpListenPort=9994/collector.tcpListenPort=${COLLECTOR_TCP_P
 sed -i "s/collector.udpStatListenPort=9995/collector.udpStatListenPort=${COLLECTOR_UDP_STAT_LISTEN_PORT}/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-collector.properties
 sed -i "s/collector.udpSpanListenPort=9996/collector.udpSpanListenPort=${COLLECTOR_UDP_SPAN_LISTEN_PORT}/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-collector.properties
 
+sed -i "s/collector.receiver.span.worker.threadSize=32/collector.receiver.span.worker.threadSize=512/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-collector.properties
+sed -i "s/collector.receiver.span.worker.queueSize=256/collector.receiver.span.worker.queueSize=4096/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/pinpoint-collector.properties
+
 sed -i "s/hbase.client.host=localhost/hbase.client.host=${HBASE_HOST}/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/hbase.properties
 sed -i "s/hbase.client.port=2181/hbase.client.port=${HBASE_PORT}/g" /usr/local/tomcat/webapps/ROOT/WEB-INF/classes/hbase.properties
 
